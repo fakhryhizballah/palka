@@ -39,41 +39,41 @@ void loop() {
 
 void onConnectionEstablished() {
 
-  client.subscribe("mytopic/test", [] (const String &payload)  {
+  client.subscribe("TA_2/Mesure/tonase", [] (const String &payload)  {
     Serial.println(payload);
     StaticJsonDocument<192> doc;
 
     DeserializationError error = deserializeJson(doc, input);
 
-if (error) {
-  Serial.print("deserializeJson() failed: ");
-  Serial.println(error.c_str());
-  return;
-}
-
-const char* jenis = doc["jenis"]; // "Kubus"
-int tonase = doc["tonase"]; // 1234
-int a, b, h, l;
-double hx ;
-if(jenis = "Kubus"){
-  a= doc["a"]; // Panjang
-  b= doc["b"]; // Lebar
-  h= doc["h"]; // Tinggi
-}
-if (jenis = "Trapezoidal"){
-  a= doc["a"]; // Sisi Atas
-  b= doc["b"]; // sisi Bawah
-  h= doc["h"]; // Tinggi max
-  l= doc["l"]; // lebar
+    if (error) {
+      Serial.print("deserializeJson() failed: ");
+      Serial.println(error.c_str());
+      return;
     }
-  });
+
+    const char* jenis = doc["jenis"]; // "balok"
+    int tonase = doc["tonase"]; 
+    int a, b,
+    double hx,temp ;
+    if(jenis = "balok"){
+      a= doc["a"]; // Panjang
+      b= doc["b"]; // Lebar
+      h= doc["h"]; // Tinggi
+      temp = Temp();
+      hx = h - mersure(temp);
+      double volume = volumeBalok(a,b,hx);
+      double berat = volume * tonase;
+      Serial.println(berat);
+      client.publish("TA_2/Mesure/berat", String(berat));
+    }
+  };
 
   
 }
 
-double volumeKubus(double a, double b, double h, double hx) {
+double volumeBalok(double a, double b, double hx) {
   // Serial.println(a*b*c);
-  return;
+  return a*b*hx;
 }
 
 double volumeTrapezoidal(double a, double b, double h, double l, double hx) {

@@ -1,8 +1,6 @@
 {
-    "jenis": "Kubus",
-    "tonase": 1351824120,
+    "jenis": "balok",
+    "Tonase": 1351824120,
     "a": 1,
-    "b": 2,
-    "h": 4,
-    "l": 5
+    "b": 2
   }
